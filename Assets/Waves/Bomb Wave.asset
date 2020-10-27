@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 166d249703bd33242b6e4398a52cf8a7, type: 3}
+  m_Name: Bomb Wave
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 3322418984910695164, guid: 4f7c677cb53bd934181c42378837a605,
+    type: 3}
+  pathPrefab: {fileID: 3309706328551952478, guid: f551901818b74a34888ba6ff320f2404,
+    type: 3}
+  timeBetweenSpawns: 0.75
+  spawnRandomFactor: 0.3
+  numberOfEnemies: 6
+  moveSpeed: 15
+  type: bomb
