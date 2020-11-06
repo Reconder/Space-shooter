@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BombPathing : MonoBehaviour
+public class BombPathing : MonoBehaviour, IEnemyPathing
 {
 
     WaveConfig waveConfig;
@@ -32,7 +32,7 @@ public class BombPathing : MonoBehaviour
         this.waveConfig = waveConfig;
     }
 
-    private void Move()
+    public void Move()
     {
         var targetPosition = waypoints[waypointIndex].transform.position + new Vector3(0 , -18.5f, 0);
         Debug.Log(targetPosition);

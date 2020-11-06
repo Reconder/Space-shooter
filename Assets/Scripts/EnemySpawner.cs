@@ -43,8 +43,7 @@ public class EnemySpawner : MonoBehaviour
                 waveConfig.GetEnemyPrefab(), 
                 waveConfig.GetWaypoints()[0].transform.position, 
                 Quaternion.identity);
-            if (waveConfig.GetEnemyType() == "enemy") { newEnemy.GetComponent<EnemyPathing>().SetWaveConfig(waveConfig); }
-            else { newEnemy.GetComponent<BombPathing>().SetWaveConfig(waveConfig); }
+            newEnemy.GetComponent<IEnemyPathing>().SetWaveConfig(waveConfig); 
             yield return new WaitForSeconds(waveConfig.GetTimeBetweenSpawns());
     }
 

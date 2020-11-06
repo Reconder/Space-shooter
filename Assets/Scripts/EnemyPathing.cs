@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyPathing : MonoBehaviour
+public class EnemyPathing : MonoBehaviour, IEnemyPathing
 {
-    
+
     WaveConfig waveConfig;
     List<Transform> waypoints;
     float moveSpeed;
@@ -29,9 +29,9 @@ public class EnemyPathing : MonoBehaviour
         this.waveConfig = waveConfig;
     }
 
-    private void Move()
+    public void Move()
     {
-        if (waypointIndex <= waypoints.Count-1)
+        if (waypointIndex <= waypoints.Count - 1)
         {
             var targetPosition = waypoints[waypointIndex].transform.position;
             var movementThisFrame = moveSpeed * Time.deltaTime;
