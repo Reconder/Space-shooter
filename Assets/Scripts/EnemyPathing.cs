@@ -15,19 +15,13 @@ public class EnemyPathing : MonoBehaviour, IEnemyPathing
     {
         waypoints = waveConfig.GetWaypoints();
         transform.position = waypoints[waypointIndex].position;
-        moveSpeed = waveConfig.GetMoveSpeed();
+        moveSpeed = waveConfig.MoveSpeed;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        Move();
-    }
+    void Update() => Move();
 
-    public void SetWaveConfig(WaveConfig waveConfig)
-    {
-        this.waveConfig = waveConfig;
-    }
+    public void SetWaveConfig(WaveConfig waveConfig) => this.waveConfig = waveConfig;
 
     public void Move()
     {

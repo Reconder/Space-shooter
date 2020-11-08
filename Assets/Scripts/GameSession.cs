@@ -3,14 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class ScoreChangedEventArgs : EventArgs
+{
+    public int Totalscore { get; set; }
+}
+
 public class GameSession : MonoBehaviour
 {
     int score = 0;
-    // Start is called before the first frame update
-    private void Awake()
-    {
-        SetUpSingleton();
-    }
+
+    public delegate void ScoreChangedEventHandler(ScoreChangedEventArgs args);
+    public ScoreChangedEventHandler OnScoreChange;
+    private void Awake() => SetUpSingleton();
 
     private void SetUpSingleton()
     {
@@ -25,20 +29,15 @@ public class GameSession : MonoBehaviour
         }
     }
 
-    public int GetScore()
+    public int Score => score;
+
+    public void AddScore(EnemyDeathEventArgs args)
     {
-        return score;
+        score += args.Points;
+        OnScoreChange?.Invoke(new ScoreChangedEventArgs() { Totalscore = score });
     }
 
-    public void AddScore(int addition)
-    {
-        score += addition;
-    }
-
-    public void ResetGame()
-    {
-        Destroy(gameObject);
-    }
+    public void ResetGame() => Destroy(gameObject);
     // Update is called once per frame
 
 }

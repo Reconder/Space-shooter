@@ -11,7 +11,11 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] int startingWave = 0;
     [SerializeField] bool looping = false;
     [SerializeField] bool random = false;
-    // Start is called before the first frame update
+    GameSession gameSession;
+    private void Awake()
+    {
+        gameSession = FindObjectOfType<GameSession>();
+    }
     IEnumerator Start()
     {
 
@@ -38,13 +42,14 @@ public class EnemySpawner : MonoBehaviour
     private IEnumerator SpawnAllEnemiesInWave(WaveConfig waveConfig)
     {
 
-        for (int enemiesIndex = 0; enemiesIndex < waveConfig.GetNumberOfEnemies(); enemiesIndex++) { 
+        for (int enemiesIndex = 0; enemiesIndex < waveConfig.NumberOfEnemies; enemiesIndex++) { 
             var newEnemy = Instantiate(
-                waveConfig.GetEnemyPrefab(), 
+                waveConfig.EnemyPrefab, 
                 waveConfig.GetWaypoints()[0].transform.position, 
                 Quaternion.identity);
-            newEnemy.GetComponent<IEnemyPathing>().SetWaveConfig(waveConfig); 
-            yield return new WaitForSeconds(waveConfig.GetTimeBetweenSpawns());
+            newEnemy.GetComponent<IEnemyPathing>().SetWaveConfig(waveConfig);
+            newEnemy.GetComponent<Enemy>().OnEnemyDeath += gameSession.AddScore;
+            yield return new WaitForSeconds(waveConfig.TimeBetweenSpawns);
     }
 
     }

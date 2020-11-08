@@ -5,10 +5,7 @@ using UnityEngine;
 public class Destroyer : MonoBehaviour
 {
     // Start is called before the first frame update
-    
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        Destroy(collision.gameObject);
-    }
-    
+
+    void OnTriggerEnter2D(Collider2D collision) => Destroy(collision.gameObject);
+
 }

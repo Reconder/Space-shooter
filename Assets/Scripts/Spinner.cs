@@ -8,8 +8,5 @@ public class Spinner : MonoBehaviour
     [SerializeField] float rotationSpeed = 0.1f;
 
     // Update is called once per frame
-    void Update()
-    {
-        transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
-    }
+    void Update() => transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
 }

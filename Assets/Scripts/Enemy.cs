@@ -1,40 +1,44 @@
 ﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
 
+public class EnemyDeathEventArgs : EventArgs
+{
+    public int Points { get; set; }
+}
 public class Enemy : MonoBehaviour
 {
+    [Header("Enemy Stats")]
     [SerializeField] int health = 100;
     [SerializeField] float shotCounter;
     [SerializeField] float minTimeBetweenShots = 0.2f;
     [SerializeField] float maxTimeBetweenShots = 1f;
+    [SerializeField] float projectileSpeed = 20f;
+    [SerializeField] int score = 150;
+
+    [Header("Effects")]
     [SerializeField] GameObject projectile;
     [SerializeField] GameObject explosion;
     [SerializeField] AudioClip fireSFX;
     [SerializeField] [Range(0, 1)] float volumeFireSFX = 0.25f;
     [SerializeField] AudioClip deathSFX;
     [SerializeField] [Range(0,1)] float volumeDeathSFX = 0.7f;
-    [SerializeField] float projectileSpeed = 20f;
-    [SerializeField] int score = 150;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        shotCounter = Random.Range(minTimeBetweenShots, maxTimeBetweenShots);
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        CountDownAndShoot();
-    }
+    public delegate void EnemyDeathEventHandler(EnemyDeathEventArgs args);
+    public EnemyDeathEventHandler OnEnemyDeath;
+    void Start() => shotCounter = UnityEngine.Random.Range(minTimeBetweenShots, maxTimeBetweenShots);
+
+    void Update() => CountDownAndShoot();
 
     private void CountDownAndShoot()
     {
         shotCounter -= Time.deltaTime;
-        if (shotCounter <= 0) { Shoot(); shotCounter = Random.Range(minTimeBetweenShots, maxTimeBetweenShots); }
+        if (shotCounter <= 0) { Shoot(); shotCounter = UnityEngine.Random.Range(minTimeBetweenShots, maxTimeBetweenShots); }
     }
 
     private void Shoot()
@@ -55,7 +59,7 @@ public class Enemy : MonoBehaviour
 
     private void ProcessHit(DamageDealer damageDealer)
     {
-        health -= damageDealer.GetDamage();
+        health -= damageDealer.Damage;
         damageDealer.Hit();
         if (health <= 0)
         {
@@ -65,7 +69,7 @@ public class Enemy : MonoBehaviour
 
     private void Death()
     {
-        FindObjectOfType<GameSession>().AddScore(score);
+        OnEnemyDeath?.Invoke(new EnemyDeathEventArgs(){ Points = score });
         Destroy(gameObject);
         AudioSource.PlayClipAtPoint(deathSFX, transform.position, volumeDeathSFX);
         GameObject deathVFX = Instantiate(explosion, transform.position, transform.rotation);

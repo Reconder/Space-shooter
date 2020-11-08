@@ -25,12 +25,11 @@ public class Player : MonoBehaviour
     Coroutine firingCoroutine;
 
     float Xmin, Xmax, Ymin, Ymax;
+
     // Start is called before the first frame update
-    void Start()
-    {
-        SetUpMoveBoundaries();
-    }
-    void Update()
+    private void Start() => SetUpMoveBoundaries();
+
+    private void Update()
     {
         Movement();
         Fire();
@@ -94,7 +93,7 @@ public class Player : MonoBehaviour
 
     private void ProcessHit(DamageDealer damageDealer)
     {
-        health -= damageDealer.GetDamage();
+        health -= damageDealer.Damage;
         damageDealer.Hit();
         if (health <= 0)
         {
@@ -111,8 +110,5 @@ public class Player : MonoBehaviour
         Destroy(deathVFX, 1f);
     }
 
-    public int GetHealth()
-    {
-        return health > 0 ? health : 0;
-    }
+    public int Health => health > 0 ? health : 0;
 }
